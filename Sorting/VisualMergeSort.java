@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class VisualMergeSort {
     static String RESET = "\u001B[0m";
     static String RED = "\u001B[31m";
@@ -56,71 +58,121 @@ public class VisualMergeSort {
     }
 
     // Method to merge two sorted subarrays with level parameter
-    public static void merge(int[] array, int left, int mid, int right, int currentLevel) {
+    // public static void merge(int[] array, int left, int mid, int right, int currentLevel) {
+    //     System.out.printf("%sMerging subarrays from index %d to %d and %d to %d with level %d%s\n", UNDERLINE, left, mid, mid + 1, right, currentLevel, RESET);
+    //     System.out.printf("Subarrays before merge: ");
+    //     printArray(array, left, mid);
+    //     System.out.printf("and ");
+    //     printArray(array, mid + 1, right);
+    //     System.out.println();
+
+    //     // Sizes of the two subarrays to merge
+    //     int n1 = mid - left + 1;
+    //     int n2 = right - mid;
+
+    //     // Create temporary arrays
+    //     int[] leftArray = new int[n1];
+    //     int[] rightArray = new int[n2];
+
+    //     // Copy data to temporary arrays
+    //     for (int i = 0; i < n1; i++) {
+    //         leftArray[i] = array[left + i];
+    //     }
+    //     for (int j = 0; j < n2; j++) {
+    //         rightArray[j] = array[mid + 1 + j];
+    //     }
+
+    //     // Display temporary arrays
+    //     System.out.printf("Left array: ");
+    //     printArray(leftArray);
+    //     System.out.printf("Right array: ");
+    //     printArray(rightArray);
+
+    //     // Merge the temporary arrays back into the original array
+    //     int i = 0, j = 0;
+    //     int k = left;
+    //     while (i < n1 && j < n2) {
+    //         if (leftArray[i] <= rightArray[j]) {
+    //             array[k] = leftArray[i];
+    //             i++;
+    //         } else {
+    //             array[k] = rightArray[j];
+    //             j++;
+    //         }
+    //         System.out.printf("Placing %d at index %d\n", array[k], k);
+    //         k++;
+    //     }
+
+    //     // Copy remaining elements of leftArray[], if any
+    //     while (i < n1) {
+    //         array[k] = leftArray[i];
+    //         System.out.printf("Placing %d at index %d\n", array[k], k);
+    //         i++;
+    //         k++;
+    //     }
+
+    //     // Copy remaining elements of rightArray[], if any
+    //     while (j < n2) {
+    //         array[k] = rightArray[j];
+    //         System.out.printf("Placing %d at index %d\n", array[k], k);
+    //         j++;
+    //         k++;
+    //     }
+
+    //     // Display the merged array
+    //     System.out.printf("Merged array from index %d to %d: ", left, right);
+    //     printArray(array, left, right);
+    //     System.out.println();
+    // }
+
+    public static void merge(int[] arr, int low, int mid, int high, int currentLevel) {
+        ArrayList<Integer> temp = new ArrayList<>(); // temporary array
+        int left = low;      // starting index of left half of arr
+        int right = mid + 1;   // starting index of right half of arr
+        
         System.out.printf("%sMerging subarrays from index %d to %d and %d to %d with level %d%s\n", UNDERLINE, left, mid, mid + 1, right, currentLevel, RESET);
         System.out.printf("Subarrays before merge: ");
-        printArray(array, left, mid);
-        printArray(array, mid + 1, right);
+        printArray(arr, left, mid);
+        System.out.printf("and ");
+        printArray(arr, mid + 1, right);
         System.out.println();
-
-        // Sizes of the two subarrays to merge
-        int n1 = mid - left + 1;
-        int n2 = right - mid;
-
-        // Create temporary arrays
-        int[] leftArray = new int[n1];
-        int[] rightArray = new int[n2];
-
-        // Copy data to temporary arrays
-        for (int i = 0; i < n1; i++) {
-            leftArray[i] = array[left + i];
-        }
-        for (int j = 0; j < n2; j++) {
-            rightArray[j] = array[mid + 1 + j];
-        }
-
-        // Display temporary arrays
-        System.out.printf("Left array: ");
-        printArray(leftArray);
-        System.out.printf("Right array: ");
-        printArray(rightArray);
-
-        // Merge the temporary arrays back into the original array
-        int i = 0, j = 0;
-        int k = left;
-        while (i < n1 && j < n2) {
-            if (leftArray[i] <= rightArray[j]) {
-                array[k] = leftArray[i];
-                i++;
+    
+        // Storing elements in the temporary array in a sorted manner
+        while (left <= mid && right <= high) {
+            if (arr[left] <= arr[right]) {
+                temp.add(arr[left]);
+                left++;
             } else {
-                array[k] = rightArray[j];
-                j++;
+                temp.add(arr[right]);
+                right++;
             }
-            System.out.printf("Placing %d at index %d\n", array[k], k);
-            k++;
+            System.out.printf("Placing %d at index %d\n", temp.get(temp.size() - 1), temp.size() - 1);
         }
-
-        // Copy remaining elements of leftArray[], if any
-        while (i < n1) {
-            array[k] = leftArray[i];
-            System.out.printf("Placing %d at index %d\n", array[k], k);
-            i++;
-            k++;
+    
+        // If elements on the left half are still left
+        while (left <= mid) {
+            temp.add(arr[left]);
+            System.out.printf("Placing %d at index %d\n", temp.get(temp.size() - 1), temp.size() - 1);
+            left++;
         }
-
-        // Copy remaining elements of rightArray[], if any
-        while (j < n2) {
-            array[k] = rightArray[j];
-            System.out.printf("Placing %d at index %d\n", array[k], k);
-            j++;
-            k++;
+    
+        // If elements on the right half are still left
+        while (right <= high) {
+            temp.add(arr[right]);
+            System.out.printf("Placing %d at index %d\n", temp.get(temp.size() - 1), temp.size() - 1);
+            right++;
         }
-
-        // Display the merged array
-        System.out.printf("Merged array from index %d to %d: ", left, right);
-        printArray(array, left, right);
+    
+        // Transferring all elements from temporary to arr
+        for (int i = low; i <= high; i++) {
+            arr[i] = temp.get(i - low);
+        }
+        
+        System.out.printf("Merged array from index %d to %d: ", low, high); // Correct indices
+        printArray(arr, low, high); // Correct indices
         System.out.println();
     }
+    
 
     // Utility method to print the array
     public static void printArray(int[] array) {
