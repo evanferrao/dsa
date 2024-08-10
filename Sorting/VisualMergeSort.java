@@ -4,53 +4,64 @@ public class VisualMergeSort {
     static String GREEN = "\u001B[32m";
     static String YELLOW = "\u001B[33m";
     static String BLUE = "\u001B[34m";
-    static int id = 0;
+    static String PURPLE = "\u001B[35m";
+    static String CYAN = "\u001B[36m";
+    static String WHITE = "\u001B[37m";
+    static String BOLD = "\u001B[1m";
+    static String UNDERLINE = "\u001B[4m";
+    static String ITALIC = "\u001B[3m";
+
+    static int level = 0;
 
     public static void main(String[] args) {
         int[] array = {38, 27, 43, 3, 9, 82, 10};
         System.out.println("Original array:");
         printArray(array);
 
-        // Initialize ID and call mergeSort
-        mergeSort(array, 0, array.length - 1, id);
+        // Initialize level and call mergeSort
+        mergeSort(array, 0, array.length - 1, level);
 
         System.out.println("Sorted array:");
         printArray(array);
     }
 
-    // Method to perform merge sort with ID parameter
-    public static void mergeSort(int[] array, int left, int right, int currentId) {
+    // Method to perform merge sort with level parameter
+    public static void mergeSort(int[] array, int left, int right, int currentLevel) {
         if (left < right) {
             int mid = (left + right) / 2;
             System.out.printf("Dividing array from index %d to %d and mid %d\n", left, right, mid);
-            // System.out.printf("Current subarray: ");
-            // printArray(array, left, right);
+            System.out.printf("Current subarray: ");
+            printArray(array, left, right);
+            System.out.println();
 
             // Recursively sort the first and second halves
-            int newId = currentId + 1;
-            System.out.printf("%sCalling the first mergeSort with left = %d and right = %d with ID %d %s\n", YELLOW, left, mid, newId, RESET);
+            int newLevel = currentLevel + 1;
+            System.out.printf("%sCalling the first mergeSort with left = %d and right = %d with level %d%s\n", YELLOW, left, mid, newLevel, RESET);
             System.out.printf("First subarray: ");
             printArray(array, left, mid);
-            mergeSort(array, left, mid, newId);
+            System.out.println();
+            mergeSort(array, left, mid, newLevel);
 
-            System.out.printf("%sCalling the second mergeSort with left = %d and right = %d with ID %d %s\n", BLUE, mid + 1, right, newId , RESET);
+            System.out.printf("%sCalling the second mergeSort with left = %d and right = %d with level %d%s\n", BLUE, mid + 1, right, newLevel, RESET);
             System.out.printf("Second subarray: ");
             printArray(array, mid + 1, right);
-            mergeSort(array, mid + 1, right, newId);
+            System.out.println();
+            mergeSort(array, mid + 1, right, newLevel);
 
             // Merge the sorted halves
-            merge(array, left, mid, right);
+            merge(array, left, mid, right, newLevel);
         } else {
             System.out.printf("%sBase condition reached with left = %d and right = %d %s\n", GREEN, left, right, RESET);
         }
     }
 
-    // Method to merge two sorted subarrays
-    public static void merge(int[] array, int left, int mid, int right) {
-        System.out.printf("Merging subarrays from index %d to %d and %d to %d\n", left, mid, mid + 1, right);
+    // Method to merge two sorted subarrays with level parameter
+    public static void merge(int[] array, int left, int mid, int right, int currentLevel) {
+        System.out.printf("%sMerging subarrays from index %d to %d and %d to %d with level %d%s\n", UNDERLINE, left, mid, mid + 1, right, currentLevel, RESET);
         System.out.printf("Subarrays before merge: ");
         printArray(array, left, mid);
         printArray(array, mid + 1, right);
+        System.out.println();
 
         // Sizes of the two subarrays to merge
         int n1 = mid - left + 1;
@@ -108,21 +119,29 @@ public class VisualMergeSort {
         // Display the merged array
         System.out.printf("Merged array from index %d to %d: ", left, right);
         printArray(array, left, right);
+        System.out.println();
     }
 
     // Utility method to print the array
     public static void printArray(int[] array) {
+        System.out.printf("%s", BOLD);
+        System.out.printf("%s", PURPLE);
+        System.out.printf("%s", ITALIC);
         for (int value : array) {
             System.out.print(value + " ");
         }
+        System.out.printf("%s", RESET);
         System.out.println();
     }
 
     // Utility method to print a specific portion of the array
     public static void printArray(int[] array, int left, int right) {
+        System.out.printf("%s", RED);
         for (int i = left; i <= right; i++) {
+            
             System.out.print(array[i] + " ");
         }
-        System.out.println();
+        System.out.printf("%s", RESET);
+        //System.out.println();
     }
 }
