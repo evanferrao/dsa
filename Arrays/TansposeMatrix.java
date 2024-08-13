@@ -45,7 +45,7 @@ calss TransposeMatrix {
         return result;
     }
 
-    public static int[][] transposeOriginalMatrix(int[][] matrix) {
+    public static void transposeOriginalMatrix(int[][] matrix) {
         int rows = matrix.length;
         int cols = matrix[0].length;
         for (int i = 0; i < rows; i++) {
@@ -55,6 +55,5 @@ calss TransposeMatrix {
                 matrix[j][i] = temp;
             }
         }
-        return matrix;
     }
 }
