@@ -1,49 +1,42 @@
+// https://leetcode.com/problems/subsets/description/
+
 import java.util.*;
 
-class SubsetsWithoutDuplicates {
+public class SubsetsOne {
 
     public static void printSubset(int currentIndex, List<Integer> ds, int[] nums, int n, List<List<Integer>> finalAnswer){
         if (currentIndex == n){
             finalAnswer.add(new ArrayList<>(ds));
             return;
         }
-         
-        // Include
+
         ds.add(nums[currentIndex]);
         printSubset(currentIndex + 1, ds, nums, n, finalAnswer);
-        ds.remove(ds.size() - 1);
 
-        // Exclude
-        int nextIndex = currentIndex + 1;
-        while (nextIndex < n && nums[nextIndex] == nums[currentIndex]){
-            nextIndex++;
-        }
-        printSubset(nextIndex, ds, nums, n, finalAnswer);
+        ds.remove(ds.size() - 1);
+        printSubset(currentIndex + 1, ds, nums, n, finalAnswer);
     }
 
-    public List<List<Integer>> subsetsWithDup(int[] nums) {
-
-        Arrays.sort(nums);
-
+    public List<List<Integer>> subsets(int[] nums) {
         int n = nums.length;
-        List<Integer> ds = new ArrayList<Integer>();
+        List<Integer> ds = new ArrayList<>();
         List<List<Integer>> finalAnswer = new ArrayList<>();
+
         printSubset(0, ds, nums, n, finalAnswer);
+
         return finalAnswer;
     }
-}
 
-
-public class Main {
+    // -------- DRIVER CODE --------
     public static void main(String[] args) {
 
-        // Assumed Test Input
-        int[] nums = {1, 2, 2};
+        // Assumed Input
+        int[] nums = {1, 2, 3};
 
         Solution sol = new Solution();
-        List<List<Integer>> result = sol.subsetsWithDup(nums);
+        List<List<Integer>> result = sol.subsets(nums);
 
-        System.out.println("Subsets Without Duplicates:");
+        System.out.println("Subsets:");
         for (List<Integer> subset : result) {
             System.out.println(subset);
         }
