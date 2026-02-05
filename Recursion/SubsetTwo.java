@@ -8,7 +8,8 @@ class SubsetTwo {
         ansList.add(new ArrayList<>(ds));
 
         for (int i = ind; i < nums.length; i++) {
-            if (i != ind && nums[i] == nums[i - 1]) continue;
+            if (i > ind && nums[i] == nums[i - 1]) continue;
+            // or i != ind would also work
 
             ds.add(nums[i]);
             findSubsets(i + 1, nums, ds, ansList);

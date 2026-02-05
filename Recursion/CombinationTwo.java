@@ -14,6 +14,7 @@ class CombinationTwo {
         for (int i = currentIndex; i < candidates.length; i++){
 
             if (i > currentIndex && candidates[i] == candidates[i-1]) continue;
+            // or i != currentIndex would also work
 
             if (candidates[i] > target) break;
 
